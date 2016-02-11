@@ -48,6 +48,24 @@
             </select>
           </label>
         </div>
+        <button class="button button-small button-assertive" ng-click="type1('Dark')">
+          Submit
+        </button>
+        <div class="row">
+          <div class="col">
+            <div class="list list-inlist">
+              <div class="item">Resists</div>
+              <div class="item">{{type1}}</div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="list list-inlist">
+              <div class="item">Weak To</div>
+              <div class="item" ng-repeat="types in weaknessDict['Rock']">
+                {{types}}
+              </div>
+            </div>
+        </div>
       </ion-content>
     </ion-pane>
     </div>
