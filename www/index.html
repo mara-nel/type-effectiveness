@@ -35,7 +35,8 @@
           <!-- creates drop down selection for primary typing-->
           <label class="item item-input item-select">
             <div class="input-label">Type 1:</div>
-            <select>
+            <select ng-model="selectedType1">
+              <option value=""  selected>Choose a type</option>
               <option ng-repeat="type in typeList">{{type}}</option>
             </select>
           </label>
@@ -48,19 +49,26 @@
             </select>
           </label>
         </div>
-        <button class="button button-small button-assertive" ng-click="setType1('Dark')">
+        <button class="button button-block button-assertive"
+        ng-click="setType1(selectedType1)">
           Submit
         </button>
         <div class="row">
           <div class="col">
+            <div class="card">
+              <div class="item item-text-wrap">Resists:</div>
+            </div>
             <div class="list list-inlist">
-              <div class="item">Resists</div>
-              <div class="item">{{getType1()}}</div>
+              <div class="item" ng-repeat="types in resistDict[getType1()]">
+                {{types}}
+              </div>
             </div>
           </div>
           <div class="col">
+            <div class="card">
+              <div class="item item-text-wrap">Weak To:</div>
+            </div>
             <div class="list list-inlist">
-              <div class="item">Weak To:</div>
               <div class="item" ng-repeat="types in weaknessDict[getType1()]">
                 {{types}}
               </div>
