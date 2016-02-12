@@ -31,15 +31,15 @@
         <h1 class="title">Type Calculator</h1>
       </ion-header-bar>
       <ion-content>
-        <div class="list">
+        <div class="list list-inlist">
+          <!-- creates drop down selection for primary typing-->
           <label class="item item-input item-select">
             <div class="input-label">Type 1:</div>
             <select>
               <option ng-repeat="type in typeList">{{type}}</option>
             </select>
           </label>
-        </div>
-        <div class="list">
+          <!-- creates drop down for secondary typing, none is now an option-->
           <label class="item item-input item-select">
             <div class="input-label">Type 2:</div>
             <select>
@@ -48,20 +48,20 @@
             </select>
           </label>
         </div>
-        <button class="button button-small button-assertive" ng-click="type1('Dark')">
+        <button class="button button-small button-assertive" ng-click="setType1('Dark')">
           Submit
         </button>
         <div class="row">
           <div class="col">
             <div class="list list-inlist">
               <div class="item">Resists</div>
-              <div class="item">{{type1}}</div>
+              <div class="item">{{getType1()}}</div>
             </div>
           </div>
           <div class="col">
             <div class="list list-inlist">
-              <div class="item">Weak To</div>
-              <div class="item" ng-repeat="types in weaknessDict['Rock']">
+              <div class="item">Weak To:</div>
+              <div class="item" ng-repeat="types in weaknessDict[getType1()]">
                 {{types}}
               </div>
             </div>

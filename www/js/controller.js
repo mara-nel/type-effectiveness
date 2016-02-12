@@ -1,7 +1,7 @@
 var typeCalculator = angular.module('typeCalculator.controllers', ['ionic'])
 
 typeCalculator.controller("TypeCtrl", ['$scope', function($scope) {
-  $scope.type1="Bug"
+  var type1="Bug"
   $scope.typeList = [ "Bug", "Dark", "Dragon", "Electric",
                     "Fairy", "Fighting", "Fire", "Flying",
                     "Ghost", "Ground", "Ice", "Normal",
@@ -26,7 +26,15 @@ typeCalculator.controller("TypeCtrl", ['$scope', function($scope) {
                          "Steel":["Fighting","Fire","Ground"],
                          "Water":["Electric","Grass"]}
 
-  $scope.type1 = function(type) {
+  $scope.setType1 = function(type) {
     type1= type;
   };
+  $scope.getType1 = function() {
+    return type1;
+  }
+
+  $scope.showWeaknesses = function(type) {
+    return $scope.weaknessDict[type];
+  };
+
 }]);
