@@ -8,7 +8,7 @@ typeCalculator.controller("TypeCtrl", ['$scope', function($scope) {
   var ghost="Ghost"; var grass="Grass"; var ground="Ground"; var ice="Ice";
   var norm="Normal"; var pois="Poison"; var psych="Psychic"; var rock="Rock";
   var steel="Steel"; var water="Water";
-  
+
   $scope.typeList = [ bug, dark, dragon, elec, fairy, fight,
                       fire, fly, ghost, grass,ground, ice,
                       norm, pois, psych, rock, steel, water];
@@ -51,7 +51,15 @@ typeCalculator.controller("TypeCtrl", ['$scope', function($scope) {
                       "Steel":[bug,dragon,fairy,fly,grass,ice,norm,
                     psych,rock,steel],
                       "Water":[fire,ice,steel,water]};
-
+  //immunity dictionary
+  $scope.immuneDict = {"Dark":[psych],
+                       "Fairy":[dragon],
+                       "Flying":[ground],
+                       "Ghost":[fight,norm],
+                       "Ground":[elec],
+                       "Normal":[ghost],
+                       "Steel":[pois]
+                       }
 
   $scope.setType1 = function(type) {
     type1= type;

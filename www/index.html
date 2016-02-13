@@ -27,11 +27,11 @@
   <body ng-app="typeCalculator">
     <div ng-controller="TypeCtrl">
     <ion-pane>
-      <ion-header-bar class="bar-stable">
+      <ion-header-bar class="bar-calm">
         <h1 class="title">Type Calculator</h1>
       </ion-header-bar>
       <ion-content>
-        <div class="list list-inlist">
+        <div class="list list-inset">
           <!-- creates drop down selection for primary typing-->
           <label class="item item-input item-select">
             <div class="input-label">Type 1:</div>
@@ -53,12 +53,20 @@
         ng-click="setType1(selectedType1)">
           Submit
         </button>
+        <div class="card">
+          <div class="item" id="h1">Immune To:</div>
+        </div>
+        <div class"list list-inlist">
+          <div class="item" ng-repeat="types in immuneDict[getType1()]">
+            {{types}}
+          </div>
+        </div>
         <div class="row">
           <div class="col">
             <div class="card">
               <div class="item item-text-wrap">Resists:</div>
             </div>
-            <div class="list list-inlist">
+            <div class="list">
               <div class="item" ng-repeat="types in resistDict[getType1()]">
                 {{types}}
               </div>
@@ -68,7 +76,7 @@
             <div class="card">
               <div class="item item-text-wrap">Weak To:</div>
             </div>
-            <div class="list list-inlist">
+            <div class="list">
               <div class="item" ng-repeat="types in weaknessDict[getType1()]">
                 {{types}}
               </div>
