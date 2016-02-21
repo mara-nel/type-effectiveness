@@ -6,14 +6,31 @@
     background-color: #E9BC1B;
     text-align: center;
 }
+#immune {
+  background-color: #F0D162;  
+}
 
 #resist-card {
     background-color: #1FDA9A;
 }
+#very-resist {
+    background-color: #80EDC8;
+}
+#resist {
+    background-color: #B9EBDA;
+}
+
 
 #weak-card {
     background-color: #EE4B3E;
 }
+#very-weak {
+    background-color: #E8746B;
+}
+#weak {
+    background-color: #EDABA6;
+}
+
 
 
 #h1 {

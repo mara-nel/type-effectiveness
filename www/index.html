@@ -51,28 +51,18 @@
           </label>
         </div>
         <!-- creates a button to set selected types-->
-        <button class="button button-block button-royal"
-        ng-click="calculateAll(selectedType1)">
-          Submit
-        </button>
-        <!-- for testing purposes-
-        <div class="list list-inset">
-          <div class="item">
-            {{selectedType1}},{{selectedType2}}
-          </div>
-          <div class="item">
-            {{type1}}
-          </div>
-          <div class="item">
-            {{Types[lookup['Fairy']].name}}
-          </div>
+        <div id="h1">
+          <button class="button button-royal"
+          ng-click="calculateAll(selectedType1,selectedType2)">
+            --Submit--
+          </button>
         </div>
         <!-- cards for imm, weak, and res-->
         <div class="card">
           <div class="item" id="immune-card">Immune To:</div>
         </div>
-        <div class"list">
-          <div class="item" id="immune-list" ng-repeat="types in immunities">
+        <div class="list">
+          <div class="item" id="immune" ng-repeat="types in immunities">
             {{types}}
           </div>
         </div>
@@ -82,7 +72,10 @@
               <div class="item item-text-wrap" id="resist-card">Resists:</div>
             </div>
             <div class="list">
-              <div class="item" ng-repeat="types in resistances">
+              <div class="item" id="very-resist" ng-repeat="types in veryResist">
+                {{types}}
+              </div>
+              <div class="item" id="resist" ng-repeat="types in resistances">
                 {{types}}
               </div>
             </div>
@@ -92,7 +85,10 @@
               <div class="item item-text-wrap" id="weak-card">Weak To:</div>
             </div>
             <div class="list">
-              <div class="item" ng-repeat="types in weaknesses">
+              <div class="item" id="very-weak" ng-repeat="types in veryWeak">
+                {{types}}
+              </div>
+              <div class="item" id="weak" ng-repeat="types in weaknesses">
                 {{types}}
               </div>
             </div>
