@@ -52,7 +52,7 @@
         </div>
         <!-- creates a button to set selected types-->
         <button class="button button-block button-royal"
-        ng-click="setTypes(selectedType1,selectedType2)">
+        ng-click="calculateAll(selectedType1)">
           Submit
         </button>
         <!-- for testing purposes-
@@ -72,7 +72,7 @@
           <div class="item" id="immune-card">Immune To:</div>
         </div>
         <div class"list">
-          <div class="item" id="immune-list" ng-repeat="types in type1.immuneTo">
+          <div class="item" id="immune-list" ng-repeat="types in immunities">
             {{types}}
           </div>
         </div>
@@ -82,7 +82,7 @@
               <div class="item item-text-wrap" id="resist-card">Resists:</div>
             </div>
             <div class="list">
-              <div class="item" ng-repeat="types in type1.resists">
+              <div class="item" ng-repeat="types in resistances">
                 {{types}}
               </div>
             </div>
@@ -92,7 +92,7 @@
               <div class="item item-text-wrap" id="weak-card">Weak To:</div>
             </div>
             <div class="list">
-              <div class="item" ng-repeat="types in type1.weakTo">
+              <div class="item" ng-repeat="types in weaknesses">
                 {{types}}
               </div>
             </div>

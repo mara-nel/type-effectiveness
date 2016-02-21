@@ -1,1 +1,25 @@
-/* Empty. Add your own CSS if you like */
+.pane {
+    background-color: #C0C0C0;
+}
+
+#immune-card {
+    background-color: #E9BC1B;
+    text-align: center;
+}
+
+#resist-card {
+    background-color: #1FDA9A;
+}
+
+#weak-card {
+    background-color: #EE4B3E;
+}
+
+
+#h1 {
+    text-align: center;
+}
+
+.card-aggressive .item{
+  background-color: aggressive;
+}
