@@ -28,6 +28,7 @@ angular.module('typeCalculator.services', ['ionic','ngResource'])
     stee: {name:STEE, weakTo:[FIGH,FIRE,GROU],           resists:[BUG,DRAG,FAIR,FLY,GRAS,ICE,NORM,PSYC,ROCK,STEE], immuneTo:[POIS] },
     wate: {name:WATE, weakTo:[ELEC,GRAS],                resists:[FIRE,ICE,STEE,WATE],  immuneTo:[] },
   };
+ 
 
   return {
     getTypes: function() {

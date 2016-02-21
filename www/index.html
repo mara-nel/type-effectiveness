@@ -28,7 +28,7 @@
   <body ng-app="typeCalculator">
     <div ng-controller="TypeCtrl">
     <ion-pane>
-      <ion-header-bar class="bar-calm">
+      <ion-header-bar class="bar-dark">
         <h1 class="title">Type Calculator</h1>
       </ion-header-bar>
       <ion-content>
@@ -51,42 +51,49 @@
           </label>
         </div>
         <!-- creates a button to set selected types-->
-        <button class="button button-block button-assertive"
+        <button class="button button-block button-royal"
         ng-click="setTypes(selectedType1,selectedType2)">
           Submit
         </button>
-        <!-- for testing purposes-->
+        <!-- for testing purposes-
         <div class="list list-inset">
           <div class="item">
-            {{getType1()}} {{getType2()}}
+            {{selectedType1}},{{selectedType2}}
+          </div>
+          <div class="item">
+            {{type1}}
+          </div>
+          <div class="item">
+            {{Types[lookup['Fairy']].name}}
           </div>
         </div>
+        <!-- cards for imm, weak, and res-->
         <div class="card">
-          <div class="item" id="h1">Immune To:</div>
+          <div class="item" id="immune-card">Immune To:</div>
         </div>
         <div class"list">
-          <div class="item" ng-repeat="types in getType1imm()">
-            {{types.name}}
+          <div class="item" id="immune-list" ng-repeat="types in type1.immuneTo">
+            {{types}}
           </div>
         </div>
         <div class="row">
           <div class="col">
             <div class="card">
-              <div class="item item-text-wrap">Resists:</div>
+              <div class="item item-text-wrap" id="resist-card">Resists:</div>
             </div>
             <div class="list">
-              <div class="item" ng-repeat="types in getType1().resists track by $index">
-                {{types.name}}
+              <div class="item" ng-repeat="types in type1.resists">
+                {{types}}
               </div>
             </div>
           </div>
           <div class="col">
             <div class="card">
-              <div class="item item-text-wrap">Weak To:</div>
+              <div class="item item-text-wrap" id="weak-card">Weak To:</div>
             </div>
             <div class="list">
-              <div class="item" ng-repeat="types in getType1weak() track by $index">
-                {{types.name}}
+              <div class="item" ng-repeat="types in type1.weakTo">
+                {{types}}
               </div>
             </div>
         </div>

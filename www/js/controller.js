@@ -4,17 +4,19 @@ typeCalculator.controller("TypeCtrl", function($scope, Types) {
   // all types are created as objects with a name and lists of weaknesses,
   // resistances, and immunities
   $scope.Types = Types.getTypes();
-  
+
   //initialized as empty because default type is not assigned
-  var type1="Ghost";
-  var type2=[];
+  $scope.type1= $scope.Types.fair;
+  $scope.type2="";
   var test="Ghost"
   //var currentDRM={bug:1, dark:2};
 
-  //var lookup = {};
-  //for (var i = 0, len = typeList.length; i < len; i++) {
-  //    lookup[typeList[i].name] = typeList[i];
-  //};
+  var lookup = {};
+  for (var prop in $scope.Types) {
+      lookup[$scope.Types[prop].name] = prop;
+  };
+  lookup['corn']='corn';
+  $scope.lookup = lookup;
   //$scope.send = function() {return lookup[test];};
   //$scope.immune = function(immunities) {
   //  var immune = [];
@@ -26,18 +28,18 @@ typeCalculator.controller("TypeCtrl", function($scope, Types) {
 
   //findType = function(tName) {return lookup[tName];};
 
-  setType1 = function(tName) {type1= tName;};
-  setType2 = function(tName) {type2= tName;};
+  setType1 = function(tName) {$scope.type1 = $scope.Types[lookup[tName]]};
+  setType2 = function(tName) {$scope.type2= tName;};
   $scope.setTypes = function(t1,t2) {
     setType1(t1);
     setType2(t2);
   };
   $scope.setDRM = function() {currentDRM = updateDRM(type1);};
-  $scope.getType1 = function() {return type1;};
-  $scope.getType1res = function() {return type1.resists;};
-  $scope.getType1weak = function() {return type1.weakTo;};
-  $scope.getType1imm = function() {return type1.immuneTo;};
-  $scope.getType2 = function() {return type2;};
+  $scope.getType1 = function() {return $scope.type1;};
+  $scope.getType1res = function() {return $scope.type1.resists;};
+  $scope.getType1weak = function() {return $scope.type1.weakTo;};
+  $scope.getType1imm = function() {return $scope.type1.immuneTo;};
+  $scope.getType2 = function() {return $scope.type2;};
   $scope.getTypeList = function() {return typeList;};
   //DRM refers to damage recieved multiplier
   updateDRM = function(typeA) {
