@@ -6,68 +6,79 @@ typeCalculator.controller("TypeCtrl", function($scope, Types) {
   $scope.Types = Types.getTypes();
 
   //initialized as empty because default type is not assigned
-  $scope.type1= $scope.Types.fair;
-  $scope.type2="";
-  var test="Ghost"
-  //var currentDRM={bug:1, dark:2};
+  type1= "";
+  type2="";
+  var currentDRC={};
+  resetDRC = function() {
+    for (var prop in $scope.Types) {
+        currentDRC[$scope.Types[prop].name] = 1.0;
+    };
+  };
 
   var lookup = {};
   for (var prop in $scope.Types) {
       lookup[$scope.Types[prop].name] = prop;
   };
-  lookup['corn']='corn';
-  $scope.lookup = lookup;
-  //$scope.send = function() {return lookup[test];};
-  //$scope.immune = function(immunities) {
-  //  var immune = [];
-  //  for (var i=0, len=immunities.length; i<len; i++) {
-  //    immune.push({immunities});
-  //  };
-  //  return immune;
-  //}
 
-  //findType = function(tName) {return lookup[tName];};
+  $scope.weaknesses = type1.weakTo;
+  $scope.resistances = type1.resists;
+  $scope.immunities = type1.immuneTo;
 
-  setType1 = function(tName) {$scope.type1 = $scope.Types[lookup[tName]]};
-  setType2 = function(tName) {$scope.type2= tName;};
+  $scope.calculateAll = function(tName1,tName2) {
+    setType1(tName1);
+    setType2(tName2);
+    resetDRC();
+    calculateDRC(type1);
+    calculateDRC(type2);
+    calculateWRI();
+  };
+
+  //creates a working DamageRecievedCalculator
+  calculateDRC = function(typeObj1) {
+    if(typeof typeObj1 === 'undefined'){} else {
+      for (var prop in $scope.Types) {
+        if (inWeak(typeObj1,prop) != -1) {isWeak(prop);}
+        else if (inRes(typeObj1,prop) != -1) {isRes(prop);}
+        else if (inImm(typeObj1,prop) != -1) {isImm(prop);}
+        else {isNeu(prop);};
+      };
+    };
+  };
+
+  //helper functions to see if t1 is in the w/r/i list of t2
+  inWeak = function(t1,t2) {return t1.weakTo.indexOf($scope.Types[t2].name);};
+  inRes  = function(t1,t2) {return t1.resists.indexOf($scope.Types[t2].name);};
+  inImm  = function(t1,t2) {return t1.immuneTo.indexOf($scope.Types[t2].name);};
+  //helper function to set DamageRecievedCalculator appropriately
+  isWeak = function(t1) {currentDRC[$scope.Types[t1].name] *= 2.0;};
+  isRes  = function(t1) {currentDRC[$scope.Types[t1].name] *= 0.5;};
+  isImm  = function(t1) {currentDRC[$scope.Types[t1].name] *= 0;};
+  isNeu  = function(t1) {currentDRC[$scope.Types[t1].name] *= 1.0;};
+
+  calculateWRI = function() {
+    $scope.weaknesses  = [];
+    $scope.resistances = [];
+    $scope.immunities  = [];
+    $scope.veryWeak    = [];
+    $scope.veryResist  = [];
+
+    ;
+    for (var prop in currentDRC) {
+      if (currentDRC[prop] == 2) {$scope.weaknesses.push(prop);}
+      else if (currentDRC[prop] == 0.5) {$scope.resistances.push(prop);}
+      else if (currentDRC[prop] == 0) {$scope.immunities.push(prop);}
+      else if (currentDRC[prop] == 4) {$scope.veryWeak.push(prop);}
+      else if (currentDRC[prop] == 0.25) {$scope.veryResist.push(prop);};
+    };
+  };
+  calculateR = function(typeObj) {$scope.resistances = typeObj.resists;};
+  calculateI = function(typeObj) {$scope.immunities  = typeObj.immuneTo;};
+
+  setType1 = function(tName) {type1 = $scope.Types[lookup[tName]]};
+  setType2 = function(tName) {type2 = $scope.Types[lookup[tName]]};
   $scope.setTypes = function(t1,t2) {
     setType1(t1);
     setType2(t2);
   };
-  $scope.setDRM = function() {currentDRM = updateDRM(type1);};
-  $scope.getType1 = function() {return $scope.type1;};
-  $scope.getType1res = function() {return $scope.type1.resists;};
-  $scope.getType1weak = function() {return $scope.type1.weakTo;};
-  $scope.getType1imm = function() {return $scope.type1.immuneTo;};
-  $scope.getType2 = function() {return $scope.type2;};
-  $scope.getTypeList = function() {return typeList;};
-  //DRM refers to damage recieved multiplier
-  updateDRM = function(typeA) {
-    var updatedDRM = [];
-    for (type in typeList) {
-      if (type in typeA.weakTo) {
-        updatedDRM[type]=2.0;
-//      } else if (type in resists) {
-//        updatedDRM[type]=existingDRM[type]*0.5;
-//      } else if (type    in immuneTo) {
-//        updatedDRM[type]=0;
-      } else {
-        updatedDRM[type]=1.0;
-      };
-    };
-    return updatedDRM;
-  };
-
-  $scope.getDRM = function() {return currentDRM;};
-  //calculate resistances and weakness for inputted types
-  // 1x for neutral, 2x for a se, 1/2x for nve, and 0x for immune
-  $scope.calculateDRM = function(typeA, typeB) {
-      firstDRM = updateDRM(typeA,typeB);
-      //secondDRM = updateDRM(firstDRM, weaknessDict[typeB],
-      //  resistDict[typeB], immuneDict[typeB]);
-
-      return firstDRM;
-    };
-
 
 });

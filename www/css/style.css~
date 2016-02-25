@@ -31,7 +31,7 @@
     border-color: #0A1719;
 }
 #very-resist {
-    background-color: #3FE35C;
+    background-color: #80EDC8;
     color: #0A1719;
     border-color: #0A1719;
     text-transform: uppercase;
@@ -49,7 +49,7 @@
     border-color: #0A1719;
 }
 #very-weak {
-    background-color: #FF5547;
+    background-color: #E8746B;
     color: #0A1719;
     border-color: #0A1719;
     text-transform: uppercase;

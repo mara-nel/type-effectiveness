@@ -5,6 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 var typeCalculator = angular.module('typeCalculator',
         ['ionic', 'ngResource', 'typeCalculator.controllers', 'typeCalculator.services'])
+        
+  if(ionic.Platform.isAndroid())
+    $ionicConfigProvider.scrolling.jsScrolling(false);
 
 typeCalculator.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
