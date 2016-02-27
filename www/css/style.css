@@ -2,6 +2,21 @@
     background-color: #0A1719;
 }
 
+#header-bar {
+		background-color: #0A1719;
+		border-color: #0A1719;
+		color: #3DBED0;
+}
+
+#bright {
+		color: #3DBED0;
+}
+
+#left-menu {
+		color: #0A1719;
+		background-color: #3DBED0;
+}
+
 #type-selection {
     background-color: #3DBED0;
     color: #0A1719;
