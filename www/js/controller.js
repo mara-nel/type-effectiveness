@@ -1,55 +1,27 @@
 var typeCalculator = angular.module('typeCalculator.controllers', ['ionic', 'ngResource'])
 
-typeCalculator.controller("Gen6Ctrl", function($scope, Types6) {
-  // all types are created as objects with a name and lists of weaknesses,
-  // resistances, and immunities
+typeCalculator.controller("Gen6Ctrl", function($scope, Types6, DamRecCalculator) {
+  // all types are created as objects within an object and contain a
+  // name, weaknesses, resistances, and immunities
   $scope.Types = Types6.getTypes();
 
   //initialized as empty because default type is not assigned
-  type1= "";
-  type2= "";
-  var currentDRC={};
-  resetDRC = function() {
-    for (var prop in $scope.Types) {
-        currentDRC[$scope.Types[prop].name] = 1.0;
-    };
-  };
+  var type1= "";
+  var type2= "";
+  var currentDRC=DamRecCalculator.emptyDRC();
 
-  var lookup = {};
-  for (var prop in $scope.Types) {
-      lookup[$scope.Types[prop].name] = prop;
-  };
+  //create an object to lookup types by string name
+  var lookup = Types6.getLookUp();
 
+  //function called when CALC button is pressed
   $scope.calculateAll = function(tName1,tName2) {
     setType1(tName1);
     setType2(tName2);
-    resetDRC();
-    calculateDRC(type1);
-    calculateDRC(type2);
+    DamRecCalculator.resetDRC($scope.Types, currentDRC);
+    DamRecCalculator.calculateDRC(type1,$scope.Types, currentDRC);
+    DamRecCalculator.calculateDRC(type2,$scope.Types, currentDRC);
     calculateWRI();
   };
-
-  //creates a working DamageRecievedCalculator
-  calculateDRC = function(typeObj1) {
-    if(typeof typeObj1 === 'undefined'){} else {
-      for (var prop in $scope.Types) {
-        if (inWeak(typeObj1,prop) != -1) {isWeak(prop);}
-        else if (inRes(typeObj1,prop) != -1) {isRes(prop);}
-        else if (inImm(typeObj1,prop) != -1) {isImm(prop);}
-        else {isNeu(prop);};
-      };
-    };
-  };
-
-  //helper functions to see if t1 is in the w/r/i list of t2
-  inWeak = function(t1,t2) {return t1.weakTo.indexOf($scope.Types[t2].name);};
-  inRes  = function(t1,t2) {return t1.resists.indexOf($scope.Types[t2].name);};
-  inImm  = function(t1,t2) {return t1.immuneTo.indexOf($scope.Types[t2].name);};
-  //helper function to set DamageRecievedCalculator appropriately
-  isWeak = function(t1) {currentDRC[$scope.Types[t1].name] *= 2.0;};
-  isRes  = function(t1) {currentDRC[$scope.Types[t1].name] *= 0.5;};
-  isImm  = function(t1) {currentDRC[$scope.Types[t1].name] *= 0;};
-  isNeu  = function(t1) {currentDRC[$scope.Types[t1].name] *= 1.0;};
 
   calculateWRI = function() {
     //initializes varies categories types could fall into
@@ -80,56 +52,32 @@ typeCalculator.controller("Gen6Ctrl", function($scope, Types6) {
 })
 
 
-typeCalculator.controller("Gen1Ctrl", function($scope, Types1) {
+typeCalculator.controller("Gen1Ctrl", function($scope, Types1, DamRecCalculator) {
   // all types are created as objects with a name and lists of weaknesses,
   // resistances, and immunities
   $scope.Types = Types1.getTypes();
 
   //initialized as empty because default type is not assigned
-  type1= "";
-  type2= "";
-  var currentDRC={};
-  resetDRC = function() {
-    for (var prop in $scope.Types) {
-        currentDRC[$scope.Types[prop].name] = 1.0;
-    };
-  };
+  var type1= "";
+  var type2= "";
+  var currentDRC=DamRecCalculator.emptyDRC();
 
-  var lookup = {};
+  //create an object to lookup types by string name
+  var lookup = Types1.getLookUp();
+
+  /*var lookup = {};
   for (var prop in $scope.Types) {
       lookup[$scope.Types[prop].name] = prop;
-  };
+  };*/
 
   $scope.calculateAll = function(tName1,tName2) {
     setType1(tName1);
     setType2(tName2);
-    resetDRC();
-    calculateDRC(type1);
-    calculateDRC(type2);
+    DamRecCalculator.resetDRC($scope.Types, currentDRC);
+    DamRecCalculator.calculateDRC(type1,$scope.Types, currentDRC);
+    DamRecCalculator.calculateDRC(type2,$scope.Types, currentDRC);
     calculateWRI();
   };
-
-  //creates a working DamageRecievedCalculator
-  calculateDRC = function(typeObj1) {
-    if(typeof typeObj1 === 'undefined'){} else {
-      for (var prop in $scope.Types) {
-        if (inWeak(typeObj1,prop) != -1) {isWeak(prop);}
-        else if (inRes(typeObj1,prop) != -1) {isRes(prop);}
-        else if (inImm(typeObj1,prop) != -1) {isImm(prop);}
-        else {isNeu(prop);};
-      };
-    };
-  };
-
-  //helper functions to see if t1 is in the w/r/i list of t2
-  inWeak = function(t1,t2) {return t1.weakTo.indexOf($scope.Types[t2].name);};
-  inRes  = function(t1,t2) {return t1.resists.indexOf($scope.Types[t2].name);};
-  inImm  = function(t1,t2) {return t1.immuneTo.indexOf($scope.Types[t2].name);};
-  //helper function to set DamageRecievedCalculator appropriately
-  isWeak = function(t1) {currentDRC[$scope.Types[t1].name] *= 2.0;};
-  isRes  = function(t1) {currentDRC[$scope.Types[t1].name] *= 0.5;};
-  isImm  = function(t1) {currentDRC[$scope.Types[t1].name] *= 0;};
-  isNeu  = function(t1) {currentDRC[$scope.Types[t1].name] *= 1.0;};
 
   calculateWRI = function() {
     //initializes varies categories types could fall into
