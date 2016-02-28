@@ -9,8 +9,6 @@
 var typeCalculator = angular.module('typeCalculator',
         ['ionic', 'ngResource', 'typeCalculator.controllers', 'typeCalculator.services'])
 
-//  if(ionic.Platform.isAndroid())
-//    $ionicConfigProvider.scrolling.jsScrolling(false);
 
 typeCalculator.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -51,20 +49,32 @@ typeCalculator.config(function($stateProvider, $urlRouterProvider, $ionicConfigP
       views: {
         'tab-gen6': {
           templateUrl: 'templates/tab-gen6.html',
-          controller: 'TypeCtrl'
+          controller: 'Gen6Ctrl'
         }
       }
     })
 
     .state('tab.gen1', {
-        url: '/gen1',
-        views: {
-          'tab-gen1': {
-            templateUrl: 'templates/tab-gen1.html',
-            controller: 'TypeCtrl'
-          }
+      url: '/gen1',
+      views: {
+        'tab-gen1': {
+          templateUrl: 'templates/tab-gen1.html',
+          controller: 'Gen1Ctrl'
         }
-      })
+      }
+    })
+
+    .state('tab.about', {
+      url: '/about',
+      views: {
+        'tab-about': {
+          templateUrl: 'templates/tab-about.html',
+          controller: 'TypeCtrl'
+        }
+      }
+    })
+
+
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/gen6');
