@@ -1,6 +1,18 @@
 var typeCalculator = angular.module('typeCalculator.controllers', ['ionic', 'ngResource'])
 
-typeCalculator.controller("TypeCtrl", function($scope, Types) {
+typeCalculator.controller("TypeCtrl", function($scope, $ionicSideMenuDelegate, $location ,Types) {
+  /* testing in progress
+  / *************************************
+  */
+  $scope.toggleMenu = function() {
+    $ionicSideMenuDelegate.toggleLeft();
+  };
+
+  $scope.go = function ( path ) {
+  $location.path( path );
+};
+  //*************************************
+
   // all types are created as objects with a name and lists of weaknesses,
   // resistances, and immunities
   $scope.Types = Types.getTypes();
