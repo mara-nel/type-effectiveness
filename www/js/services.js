@@ -1,21 +1,24 @@
 'use strict';
 angular.module('typeCalculator.services', ['ionic','ngResource'])
 
-.factory('DamRecCalculator', function() {
+//creating symbolic constants for types
+var  BUG="Bug";     var DARK="Dark"; var DRAG="Dragon";var ELEC="Electric";var FAIR="Fairy";
+var FIGH="Fighting";var FIRE="Fire"; var FLY="Flying"; var GHOS="Ghost";   var GRAS="Grass";
+var GROU="Ground";  var ICE="Ice";   var NORM="Normal";var POIS="Poison";  var PSYC="Psychic";
+var ROCK="Rock";    var STEE="Steel";var WATE="Water";
+
+typeCalculator.factory('DamRecCalculator', function() {
   //helper functions to see if a given type is in another types W/R/I's
   var isInWeak= function(t1,t2,typeList) {
-    var index = 0;
-    index = t1.weakTo.indexOf(typeList[t2].name);
+    var index = t1.weakTo.indexOf(typeList[t2].name);
     if (index != -1) {return true;}
     else{return false;}; };
   var isInRes= function(t1,t2,typeList) {
-    var index = 0;
-    index = t1.resists.indexOf(typeList[t2].name);
+    var index = t1.resists.indexOf(typeList[t2].name);
     if (index != -1) {return true;}
     else{return false;}; };
   var isInImm= function(t1,t2,typeList) {
-    var index = 0;
-    index = t1.immuneTo.indexOf(typeList[t2].name);
+    var index = t1.immuneTo.indexOf(typeList[t2].name);
     if (index != -1) {return true;}
     else{return false;}; };
   //helper function to set DamageRecievedCalculator appropriately
@@ -32,6 +35,7 @@ angular.module('typeCalculator.services', ['ionic','ngResource'])
       for (var prop in typeList) {
           drc[typeList[prop].name] = 1.0;
       }
+      return drc;
     },
     calculateDRC: function(tObj1,typeList,drc) {
       if(typeof tObj1 === 'undefined'){} else {
@@ -42,16 +46,26 @@ angular.module('typeCalculator.services', ['ionic','ngResource'])
           else {isNeu(prop,typeList,drc);};
         };
       };
+      return drc;
+    },
+    calculateWRI: function(drc) {
+      //initializes varies categories types could fall into
+      var weak  = []; var resist = []; var immune  = [];
+      var veryWeak    = []; var veryResist  = [];
+
+      for (var prop in drc) {
+        if (drc[prop] == 2) {weak.push(prop);}
+        else if (drc[prop] == 0.5) {resist.push(prop);}
+        else if (drc[prop] == 0) {immune.push(prop);}
+        else if (drc[prop] == 4) {veryWeak.push(prop);}
+        else if (drc[prop] == 0.25) {veryResist.push(prop);};
+      };
+      return {weakTo: weak, resistTo: resist, immuneTo: immune, veryWeakTo: veryWeak, veryResistTo: veryResist }
     }
   }
 })
 
-.factory('Types6', function() {
-  //creating symbolic constants for types
-  var  BUG="Bug";var DARK="Dark";var DRAG="Dragon";var ELEC="Electric";var FAIR="Fairy";
-  var FIGH="Fighting";var FIRE="Fire";var FLY="Flying";var GHOS="Ghost";var GRAS="Grass";
-  var GROU="Ground";var ICE="Ice"; var NORM="Normal";var POIS="Poison";var PSYC="Psychic";
-  var ROCK="Rock";var STEE="Steel";var WATE="Water";
+typeCalculator.factory('Types6', function() {
 
   var types = {
     bug:  {name:BUG,  weakTo:[FIRE,FLY,ROCK],            resists:[FIGH,GRAS,GROU],      immuneTo:[] },
@@ -71,7 +85,7 @@ angular.module('typeCalculator.services', ['ionic','ngResource'])
     psyc: {name:PSYC, weakTo:[BUG,DARK,GHOS],            resists:[FIGH,PSYC],           immuneTo:[] },
     rock: {name:ROCK, weakTo:[FIGH,GRAS,GROU,STEE,WATE], resists:[FIRE,FLY,NORM,POIS],  immuneTo:[] },
     stee: {name:STEE, weakTo:[FIGH,FIRE,GROU],           resists:[BUG,DRAG,FAIR,FLY,GRAS,ICE,NORM,PSYC,ROCK,STEE], immuneTo:[POIS] },
-    wate: {name:WATE, weakTo:[ELEC,GRAS],                resists:[FIRE,ICE,STEE,WATE],  immuneTo:[] },
+    wate: {name:WATE, weakTo:[ELEC,GRAS],                resists:[FIRE,ICE,STEE,WATE],  immuneTo:[] }
   };
 
   //object to lookup types by name
@@ -87,17 +101,69 @@ angular.module('typeCalculator.services', ['ionic','ngResource'])
     getType: function(typeId) {
       return types.typeId;
     },
+    getTypeNames: function() {
+      var names = [];
+      for (var prop in types) {
+        names.push(types[prop].name);
+      };
+      return names;
+    },
     getLookUp: function() {
       return lookup;
     }
   }
 })
 
-.factory('Types1', function() {
-  //creating symbolic constants for types
-  var BUG="Bug";var DRAG="Dragon";var ELEC="Electric";var FIGH="Fighting";var FIRE="Fire";
-  var FLY="Flying";var GHOS="Ghost";var GRAS="Grass";var GROU="Ground";var ICE="Ice";
-  var NORM="Normal";var POIS="Poison";var PSYC="Psychic";var ROCK="Rock";var WATE="Water";
+typeCalculator.factory('Types25', function() {
+
+  var types = {
+    bug:  {name:BUG,  weakTo:[FIRE,FLY,ROCK],         resists:[FIGH,GRAS,GROU],        immuneTo:[] },
+    dark: {name:DARK, weakTo:[BUG,FIGH],              resists:[DARK,GHOS],             immuneTo:[PSYC] },
+    drag: {name:DRAG, weakTo:[DRAG,ICE],              resists:[ELEC,FIRE,GRAS,WATE],   immuneTo:[] },
+    elec: {name:ELEC, weakTo:[GROU],                  resists:[ELEC,FLY,STEE],         immuneTo:[] },
+    figh: {name:FIGH, weakTo:[FLY,PSYC],              resists:[BUG,DARK,ROCK],         immuneTo:[] },
+    fire: {name:FIRE, weakTo:[GROU,ROCK,WATE],        resists:[BUG,FIRE,GRAS,ICE,STEE],immuneTo:[] },
+    fly:  {name:FLY,  weakTo:[ELEC,ICE,ROCK],         resists:[BUG,FIGH,GRAS],         immuneTo:[GROU] },
+    ghos: {name:GHOS, weakTo:[DARK,GHOS],             resists:[BUG,POIS],              immuneTo:[FIGH, NORM ] },
+    gras: {name:GRAS, weakTo:[BUG,FIRE,FLY,ICE,POIS], resists:[ELEC,GRAS,GROU,WATE],   immuneTo:[] },
+    grou: {name:GROU, weakTo:[GRAS,ICE,WATE],         resists:[POIS,ROCK],             immuneTo:[ELEC] },
+    ice:  {name:ICE,  weakTo:[FIGH,FIRE,ROCK,STEE],   resists:[ICE],                   immuneTo:[] },
+    norm: {name:NORM, weakTo:[FIGH],                  resists:[],                      immuneTo:[GHOS] },
+    pois: {name:POIS, weakTo:[GROU,PSYC],             resists:[BUG,FIGH,GRAS,POIS],    immuneTo:[] },
+    psyc: {name:PSYC, weakTo:[BUG,DARK,GHOS],         resists:[FIGH,PSYC],             immuneTo:[] },
+    rock: {name:ROCK, weakTo:[FIGH,GRAS,GROU,STEE,WATE], resists:[FIRE,FLY,NORM,POIS], immuneTo:[] },
+    stee: {name:STEE, weakTo:[FIGH,FIRE,GROU],        resists:[BUG,DARK,DRAG,FAIR,FLY,GHOS,GRAS,ICE,NORM,PSYC,ROCK,STEE], immuneTo:[POIS] },
+    wate: {name:WATE, weakTo:[ELEC,GRAS],             resists:[FIRE,ICE,STEE,WATE],  immuneTo:[] }
+  };
+
+  //object to lookup types by name
+  var lookup = {};
+  for (var prop in types) {
+      lookup[types[prop].name] = prop;
+  };
+
+  return {
+    getTypes: function() {
+      return types;
+    },
+    getType: function(typeId) {
+      return types.typeId;
+    },
+    getTypeNames: function() {
+      var names = [];
+      for (var prop in types) {
+        names.push(types[prop].name);
+      };
+      return names;
+    },
+    getLookUp: function() {
+      return lookup;
+    }
+  }
+})
+
+
+typeCalculator.factory('Types1', function() {
 
   var types = {
     bug:  {name:BUG,  weakTo:[POIS,FIRE,FLY,ROCK],    resists:[FIGH,GRAS,GROU],      immuneTo:[] },
@@ -129,6 +195,13 @@ angular.module('typeCalculator.services', ['ionic','ngResource'])
     },
     getType: function(typeId) {
       return types.typeId;
+    },
+    getTypeNames: function() {
+      var names = [];
+      for (var prop in types) {
+        names.push(types[prop].name);
+      };
+      return names;
     },
     getLookUp: function() {
       return lookup;

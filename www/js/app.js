@@ -64,6 +64,16 @@ typeCalculator.config(function($stateProvider, $urlRouterProvider, $ionicConfigP
       }
     })
 
+    .state('tab.gen25', {
+      url: '/gen25',
+      views: {
+        'tab-gen25': {
+          templateUrl: 'templates/tab-gen25.html',
+          controller: 'Gen25Ctrl'
+        }
+      }
+    })
+
     .state('tab.about', {
       url: '/about',
       views: {

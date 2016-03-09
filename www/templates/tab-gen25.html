@@ -1,4 +1,4 @@
-<ion-view view-title="Gen. 1" id="bright">
+<ion-view view-title="Gen. 2-5" id="bright">
 <div>
   <ion-pane>
     <ion-content>
@@ -6,8 +6,8 @@
         <!-- creates drop down selection for primary typing-->
         <label class="item item-input item-select" id="type-selection">
           <div class="input-label" id="type-selection" >Type 1:</div>
-          <select ng-model="selecType1" id="type-selection"
-           ng-change="calculateAll(selecType1,selecType2)">
+          <select ng-model="selectedType1" id="type-selection"
+          ng-change="calculateAll(selectedType1,selectedType2)">
             <option value="" selected >Choose a type</option>
             <option ng-repeat="type in TypeNames">{{type}}</option>
           </select>
@@ -15,28 +15,24 @@
         <!-- creates drop down for secondary typing, none is now an option-->
         <label class="item item-input item-select" id="type-selection">
           <div class="input-label" id="type-selection">Type 2:</div>
-          <select ng-model="selecType2" id="type-selection"
-           ng-change="calculateAll(selecType1,selecType2)">
+          <select ng-model="selectedType2" id="type-selection"
+          ng-change="calculateAll(selectedType1,selectedType2)">
             <option value="" selected>None</option>
             <option ng-repeat="type in TypeNames">{{type}}</option>
           </select>
         </label>
       </div>
       <!-- cards for imm, weak, and res-->
-      <div class="card">
-        <div class="item" id="immune-card">Immune To:</div>
-      </div>
-      <div class="list">
+      <div class=" list card">
+        <div class="item item-divider" id="immune-card">Immune To:</div>
         <div class="item" id="immune" ng-repeat="types in immunities">
           {{types}}
         </div>
       </div>
       <div class="row">
         <div class="col">
-          <div class="card">
-            <div class="item item-text-wrap" id="resist-card">Resists:</div>
-          </div>
-          <div class="list">
+          <div class="list card">
+            <div class="item item-divider item-text-wrap" id="resist-card">Resists:</div>
             <div class="item" id="very-resist" ng-repeat="types in veryResist">
               {{types}} *
             </div>
@@ -47,9 +43,7 @@
         </div>
         <div class="col">
           <div class="card">
-            <div class="item item-text-wrap" id="weak-card">Weak To:</div>
-          </div>
-          <div class="list">
+            <div class="item item-divider item-text-wrap" id="weak-card">Weak To:</div>
             <div class="item" id="very-weak" ng-repeat="types in veryWeak">
               {{types}} *
             </div>
